@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="{{ url_for('data') }}" method="post">
+        <table>
+            <tbody>
+                <tr>
+                    <td>桌号：</td>
+                    <td><input type="text" placeholder="请输入桌号" name="table"></td>
+                </tr>
+                <tr>
+                    <td>信息：</td>
+                    <td><input type="text" placeholder="请输入信息" name="data"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="登录"></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</body>
+</html>
