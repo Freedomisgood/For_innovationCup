@@ -23,32 +23,39 @@ def data():
     else:
         if request.method == 'POST':
             json_data = request.form
+            print(json_data)
             item = Item.query.filter(Item.table == json_data.get('table')).first()
             if item:
                 return 'exist', 203
             else:
-                item = Item(table=json_data.get('table'), detail=request.form.get('data'))
+                #{"1":{"id":1,"num":2,"cost":45},"2":{"id":2,"num":3,"cost":26}}
+                detail_dict =  json.loads(json_data.get('detail'))
+                recipeList = [x for x in detail_dict.values()]
+                List2str =  json.dumps(recipeList)
+                item = Item(table=json_data.get('table'), detail=List2str)
                 db.session.add(item)
                 db.session.commit()
                 return 'Create',200
 
 
 
-# @app.route('/add/<int:table>',methods=['GET','POST'])
-# def add(table):
-#     if request.method == 'POST':
-#         item = Item.query.filter( Item.table == table ).first()
-#         if item:
-#             return 'exist',203
-#         else:
-#             table = request.form.get('table')
-#             data = request.form.get('data')
-#             item = Item(table = table, detail = data)
-#             db.session.add(item)
-#             db.session.commit()
-#             return 'Create',200
+@app.route('/delete/',methods=['GET','POST'])
+def delete():
+    if request.method == 'GET':
+        return 'please use method POST',203
+    if request.method =='POST':
+        table = request.form.get('table')
+        item = Item.query.filter(Item.table == table).first()
+        if item:
+            db.session.delete(item)
+            db.session.commit()
+            return 'Delete',200
+        else:
+            return "Don't exist",402
 
-@app.route('/query/<int:table>')
+
+
+@app.route('/query/<int:table>/')
 def query(table):
     item = Item.query.filter(Item.table == table).first()
     if item:
@@ -58,4 +65,5 @@ def query(table):
         return "fail",402
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
+
