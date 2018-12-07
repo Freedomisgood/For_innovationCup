@@ -9,9 +9,11 @@ migrate = Migrate(app,db)
 
 manager.add_command('db',MigrateCommand)
 
+
 @manager.command
 def init():
     db.create_all()
+
 
 # manager.add_command('前缀',DB_manager)
 if __name__ == '__main__':
