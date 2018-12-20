@@ -1,0 +1,61 @@
+<!DOCTYPE html>  
+<html>  
+<head>  
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />  
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+    <title>Track</title>  
+    <style type="text/css">  
+    html{height:100%}  
+    body{height:100%;margin:0px;padding:0px}  
+    #controller{width:100%; border-bottom:3px outset; height:30px; filter:alpha(Opacity=100); -moz-opacity:1; opacity:1; z-index:10000; background-color:lightblue;}  
+    #MAP{height:100%}
+    </style>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=D2b4558ebed15e52558c6a766c35ee73"></script>
+
+
+    <script type="text/javascript">
+        var dict  = [ [118.93015,32.1091],[118.93015,32.1091] ]
+        {#var points = [  #}
+        {#    new BMap.Point(118.93015,32.1091), new BMap.Point(118.93020,32.1093),#}
+        {#    new BMap.Point(118.93014,32.1094), new BMap.Point(118.9303,32.1095),#}
+        {#    new BMap.Point(118.9305,32.1097), new BMap.Point(118.9306,32.1099),#}
+        {#    new BMap.Point(118.9307,32.1101), new BMap.Point(118.9308,32.11014),#}
+        {#    new BMap.Point(118.9309,32.11016), new BMap.Point(118.9310,32.11018),#}
+        {#    new BMap.Point(118.9313,32.11019), new BMap.Point(118.9320,32.120)#}
+        {#];  #}
+        var points = {{ P }};
+        function init(){
+            console.log("poionts");
+            console.log(points);
+            var map = new BMap.Map("MAP");
+            map.centerAndZoom(points[0], 15);  
+            map.enableScrollWheelZoom();  
+            map.addControl(new BMap.NavigationControl());                    //方向导航
+            map.addControl(new BMap.ScaleControl());                         //比例尺缩放器
+            map.addControl(new BMap.OverviewMapControl({isOpen: true}));     //缩略图
+             markers = new BMap.Marker(new BMap.Point(118.93015,32.1091),{"title":'Point'});
+             var label = new BMap.Label('label');
+             markers.setLabel(label);
+             map.addOverlay(markers);  
+
+            map.addOverlay(new BMap.Polyline(points, {strokeColor: "black", strokeWeight: 5, strokeOpacity: 1}));  
+            // map.addOverlay(new BMap.Polyline( points, { strokeColor:"red" , strokeWeight : 5,strokeOpacity:0.5}));
+        }
+
+</script>  
+</head>    
+
+<body onload="init();">    
+    <div id="controller" align="center">  
+        <input id="follow" type="checkbox"><span style="font-size:12px;">画面跟随</span></input>  
+        <input id="play" type="button" value="播放" onclick="play();" disabled />  
+        <input id="pause" type="button" value="暂停" onclick="pause();" disabled />  
+        <input id="reset" type="button" value="重置" onclick="reset()" disabled />  
+    </div>  
+     <!-- <div id="controller" align="center">   -->
+    <div id="MAP"></div>
+<!--     </div> -->
+
+</body>    
+</html>  
